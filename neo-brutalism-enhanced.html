@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI DXスクール ネオブルータリズム強化版</title>
+    <style>
+        /* ベース設定 */
+        :root {
+            --base: #FFFFFF;
+            --text: #000000;
+            --accent1: #FF0000;
+            --accent2: #0000FF;
+            --accent3: #FFFF00;
+            --accent4: #00FF00;
+            --border: 4px solid var(--text);
+            --shadow: 8px 8px 0px 0px var(--text);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            cursor: crosshair;
+        }
+        
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: var(--base);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            max-width: 100vw;
+        }
+        
+        /* グリッドとレイアウト */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-gap: 20px;
+            padding: 20px;
+            background-image: 
+                linear-gradient(to right, rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+            background-size: 8.33% 50px;
+            position: relative;
+        }
+        
+        .section {
+            min-height: 80vh;
+            padding: 80px 20px;
+            position: relative;
+            border-bottom: var(--border);
+            overflow: hidden;
+        }
+        
+        /* タイポグラフィ */
+        h1 {
+            font-family: 'Courier New', monospace;
+            font-size: 5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            transform: skew(-5deg);
+            line-height: 1;
+            margin-bottom: 40px;
+        }
+        
+        h2 {
+            font-family: 'Courier New', monospace;
+            font-size: 3rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin: 40px 0 20px;
+            position: relative;
+            display: inline-block;
+            z-index: 1;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 100%;
+            height: 4px;
+            background-color: var(--text);
+        }
+        
+        h3 {
+            font-family: 'Courier New', monospace;
+            font-size: 2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin: 30px 0 15px;
+        }
+        
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            max-width: 800px;
+        }
+        
+        /* ヒーローセクション */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            padding: 2rem;
+            overflow: hidden;
+        }
+        
+        .hero-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            grid-template-rows: repeat(10, 1fr);
+            pointer-events: none;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .hero-grid-item {
+            border: 1px solid var(--text);
+        }
+        
+        .hero-title {
+            font-size: 6rem;
+            line-height: 0.9;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-cta {
+            margin-top: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* SVG背景パターン */
+        .pattern-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.15;
+            z-index: 0;
+        }
+        
+        .section-divider {
+            position: relative;
+            height: 80px;
+            margin-top: -1px;
+            margin-bottom: -1px;
+            overflow: hidden;
+        }
+        
+        /* カード要素 */
+        .card {
+            background-color: var(--base);
+            border: var(--border);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            margin-bottom: 30px;
+            transform: rotate(-1deg);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .card:hover {
+            transform: rotate(1deg) scale(1.02);
+            box-shadow: 12px 12px 0px 0px var(--text);
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            width: 20px;
+            height: 20px;
+            background-color: var(--accent1);
+            transform: rotate(45deg);
+            z-index: -1;
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+        
+        .card:hover::before {
+            opacity: 1;
+            transform: rotate(45deg) scale(3);
+        }
+        
+        .card--accent1 {
+            background-color: var(--accent1);
+            color: var(--base);
+        }
+        
+        .card--accent2 {
+            background-color: var(--accent2);
+            color: var(--base);
+        }
+        
+        .card--accent3 {
+            background-color: var(--accent3);
+            color: var(--text);
+        }
+        
+        .card--featured {
+            border-width: 6px;
+            transform: rotate(1deg);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .card--featured:hover {
+            transform: rotate(-1deg) scale(1.05);
+        }
+        
+        .card--sticky {
+            position: sticky;
+            top: 20px;
+        }
+        
+        /* グリッドアイテム */
+        .grid-item {
+            grid-column: span 12;
+            margin-bottom: 20px;
+        }
+        
+        @media (min-width: 768px) {
+            .grid-item--half {
+                grid-column: span 6;
+            }
+            
+            .grid-item--third {
+                grid-column: span 4;
+            }
+            
+            .grid-item--quarter {
+                grid-column: span 3;
+            }
+            
+            .grid-item--two-thirds {
+                grid-column: span 8;
+            }
+        }
+        
+        /* 特殊要素 */
+        .highlight {
+            font-weight: bold;
+            background-color: var(--accent3);
+            padding: 0 5px;
+            display: inline-block;
+            transform: skew(-5deg);
+        }
+        
+        .counter {
+            position: absolute;
+            font-size: 8rem;
+            font-weight: bold;
+            opacity: 0.1;
+            top: 10px;
+            right: 20px;
+            z-index: 0;
+        }
+        
+        /* ヘッダー */
+        .header {
+            padding: 20px;
+            margin-bottom: 40px;
+            position: relative;
+            border-bottom: var(--border);
+        }
+        
+        /* フローティングナビゲーション */
+        .navigation {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background-color: var(--base);
+            border: var(--border);
+            padding: 10px;
+            transform: translateX(calc(100% - 50px));
+            transition: transform 0.3s ease;
+        }
+        
+        .navigation:hover {
+            transform: translateX(0);
+        }
+        
+        .navigation::before {
+            content: "≡";
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .navigation ul {
+            list-style-type: none;
+        }
+        
+        .navigation li {
+            margin-bottom: 10px;
+        }
+        
+        .navigation a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            display: block;
+            padding-left: 30px;
+        }
+        
+        .navigation a:hover {
+            color: var(--accent1);
+            transform: skew(-10deg);
+            display: inline-block;
+        }
+        
+        /* フローティングCTAボタン */
+        .floating-cta {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.05); }
+            100% { transform: translateX(-50%) scale(1); }
+        }
+        
+        /* ボタン */
+        .button {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: var(--accent1);
+            color: var(--base);
+            font-weight: bold;
+            text-decoration: none;
+            border: var(--border);
+            box-shadow: var(--shadow);
+            text-transform: uppercase;
+            cursor: crosshair;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.2);
+            transition: all 0.5s ease;
+        }
+        
+        .button:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 12px 12px 0px 0px var(--text);
+        }
+        
+        .button:hover::before {
+            left: 100%;
+        }
+        
+        .button--large {
+            padding: 20px 40px;
+            font-size: 1.5rem;
+        }
+        
+        .button--accent2 {
+            background-color: var(--accent2);
+        }
+        
+        .button--accent3 {
+            background-color: var(--accent3);
+            color: var(--text);
+        }
+        
+        /* 訴求バナー */
+        .cta-banner {
+            background-color: var(--accent1);
+            color: var(--base);
+            padding: 40px 20px;
+            text-align: center;
+            margin: 60px 0;
+            position: relative;
+            border: var(--border);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        
+        .cta-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.2;
+            z-index: 0;
+        }
+        
+        .cta-banner h2 {
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cta-banner p {
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* 特典リスト */
+        .benefits-list {
+            list-style-type: none;
+            margin: 30px 0;
+            counter-reset: benefits;
+        }
+        
+        .benefits-item {
+            position: relative;
+            padding: 20px 20px 20px 80px;
+            margin-bottom: 20px;
+            background-color: var(--base);
+            border: var(--border);
+            box-shadow: var(--shadow);
+            counter-increment: benefits;
+        }
+        
+        .benefits-item::before {
+            content: counter(benefits);
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent1);
+        }
+        
+        .benefits-item:nth-child(2)::before {
+            color: var(--accent2);
+        }
+        
+        .benefits-item:nth-child(3)::before {
+            color: var(--accent3);
+        }
+        
+        /* リスト */
+        ul {
+            list-style-type: none;
+            margin: 20px 0;
+        }
+        
+        li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--accent1);
+            font-weight: bold;
+        }
+        
+        /* スタッツ */
+        .stats-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 40px 0;
+        }
+        
+        .stat-item {
+            flex: 1;
+            min-width: 200px;
+            background-color: var(--base);
+            border: var(--border);
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            transform: rotate(-1deg);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-item:hover {
+            transform: rotate(1deg);
+        }
+        
+        .stat-number {
+            font-size: 5rem;
+            font-weight: bold;
+            line-height: 1;
+        }
+        
+        .stat-text {
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+        
+        /* カリキュラムリスト */
+        .curriculum-list {
+            margin: 30px 0;
+        }
+        
+        .curriculum-item {
+            border: var(--border);
+            padding: 20px;
+            margin-bottom: 15px;
+            position: relative;
+            background-color: var(--base);
+            transition: all 0.3s ease;
+        }
+        
+        .curriculum-item:nth-child(odd) {
+            transform: rotate(-0.5deg);
+        }
+        
+        .curriculum-item:nth-child(even) {
+            transform: rotate(0.5deg);
+        }
+        
+        .curriculum-item:hover {
+            background-color: var(--accent3);
+            transform: scale(1.02);
+            z-index: 2;
+        }
+        
+        /* 料金プラン */
+        .price-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin: 40px 0;
+            justify-content: center;
+        }
+        
+        .price-box {
+            border: var(--border);
+            box-shadow: var(--shadow);
+            padding: 40px;
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: var(--accent3);
+            position: relative;
+            transform: rotate(-2deg);
+            transition: all 0.3s ease;
+        }
+        
+        .price-box:hover {
+            transform: rotate(2deg);
+            box-shadow: 12px 12px 0px 0px var(--text);
+        }
+        
+        .price-box--featured {
+            background-color: var(--accent1);
+            color: var(--base);
+            transform: rotate(2deg) scale(1.05);
+            z-index: 2;
+        }
+        
+        .price-box--featured:hover {
+            transform: rotate(-2deg) scale(1.08);
+        }
+        
+        .price {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .price-label {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            background-color: var(--accent2);
+            color: var(--base);
+            padding: 5px 15px;
+            transform: rotate(5deg);
+            font-weight: bold;
+            box-shadow: 4px 4px 0px 0px var(--text);
+        }
+        
+        /* タグ */
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .tag {
+            background-color: var(--accent3);
+            color: var(--text);
+            padding: 5px 15px;
+            font-weight: bold;
+            border: 2px solid var(--text);
+        }
+        
+        /* テスティモニアル */
+        .testimonials {
+            margin: 60px 0;
+        }
+        
+        .testimonial {
+            border: var(--border);
+            padding: 30px;
+            margin-bottom: 30px;
+            position: relative;
+            background-color: var(--base);
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+        
+        .testimonial-author {
+            font-weight: bold;
+            text-align: right;
+        }
+        
+        .testimonial-quote {
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            font-size: 5rem;
+            opacity: 0.1;
+        }
+        
+        /* FAQ */
+        .faq-section {
+            margin: 60px 0;
+        }
+        
+        .faq-item {
+            border: var(--border);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            padding: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        
+        .faq-question::after {
+            content: "+";
+            font-size: 1.5rem;
+        }
+        
+        .faq-question.active::after {
+            content: "-";
+        }
+        
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .faq-answer.show {
+            padding: 20px;
+            max-height: 500px;
+        }
+        
+        /* アニメーション要素 */
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        .blink {
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes slide-in-left {
+            0% { transform: translateX(-100%); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+        
+        .slide-in-left {
+            animation: slide-in-left 0.5s forwards;
+        }
+        
+        @keyframes slide-in-right {
+            0% { transform: translateX(100%); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+        
+        .slide-in-right {
+            animation: slide-in-right 0.5s forwards;
+        }
+        
+        @keyframes fade-in {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .fade-in.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* マーキー要素 */
+        .marquee {
+            white-space: nowrap;
+            overflow: hidden;
+            position: relative;
+            background-color: var(--accent1);
+            color: var(--base);
+            padding: 10px 0;
+            margin: 40px 0;
+        }
+        
+        .marquee span {
+            display: inline-block;
+            animation: marquee 20s linear infinite;
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding-left: 100%;
+        }
+        
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+        
+        /* スクロールダウン指示 */
+        .scroll-down {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            z-index: 10;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+            40% { transform: translateY(-20px) translateX(-50%); }
+            60% { transform: translateY(-10px) translateX(-50%); }
+        }
+        
+        .scroll-arrow {
+            width: 30px;
+            height: 30px;
+            border: solid var(--text);
+            border-width: 0 5px 5px 0;
+            display: inline-block;
+            transform: rotate(45deg);
+        }
+        
+        /* 残り席数カウンター */
+        .seats-counter {
+            background-color: var(--accent1);
+            color: var(--base);
+            padding: 10px 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 20px;
+            border: var(--border);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .seats-counter::before {
+            content: "⚠";
+            margin-right: 10px;
+        }
+        
+        /* カウントダウン */
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .countdown-item {
+            background-color: var(--text);
+            color: var(--base);
+            width: 70px;
+            height: 70px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 3px solid var(--accent1);
+        }
+        
+        .countdown-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            line-height: 1;
+        }
+        
+        .countdown-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+        
+        /* フッター */
+        .footer {
+            padding: 40px 20px;
+            border-top: var(--border);
+            margin-top: 40px;
+            background-color: var(--text);
+            color: var(--base);
+        }
+        
+        /* SVGアニメーション */
+        .svg-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.1;
+        }
+        
+        /* レスポンシブ */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3rem;
+            }
+            
+            .hero-title {
+                font-size: 4rem;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+            
+            h3 {
+                font-size: 1.5rem;
+            }
+            
+            .grid-container {
+                grid-template-columns: 1fr;
+                grid-gap: 10px;
+            }
+            
+            .counter {
+                font-size: 4rem;
+            }
+            
+            .button--large {
+                padding: 15px 30px;
+                font-size: 1.2rem;
+            }
+            
+            .price {
+                font-size: 3rem;
+            }
+            
+            .floating-cta {
+                width: 90%;
+            }
+        }
+        
+        /* カスタムカーソル */
+        * {
+            cursor: crosshair;
+        }
+    </style>
+</head>
+<body>
+    <!-- ナビゲーション -->
+    <div class="navigation">
+        <ul>
+            <li><a href="#hero">トップ</a></li>
+            <li><a href="#about">スクール概要</a></li>
+            <li><a href="#future">AI未来予測</a></li>
+            <li><a href="#benefits">業務効率化</a></li>
+            <li><a href="#curriculum">カリキュラム</a></li>
+            <li><a href="#monetize">マネタイズ</a></li>
+            <li><a href="#testimonials">受講者の声</a></li>
+            <li><a href="#faq">よくある質問</a></li>
+            <li><a href="#pricing">料金・特典</a></li>
+            <li><a href="#contact">お問い合わせ</a></li>
+        </ul>
+    </div>
+    
+    <!-- フローティングCTA -->
+    <div class="floating-cta">
+        <a href="#pricing" class="button button--accent2">今すぐ申し込む</a>
+    </div>
+    
+    <!-- ヒーローセクション -->
+    <section id="hero" class="hero-section">
+        <div class="pattern-bg"></div>
+        <div class="hero-grid">
+            <!-- グリッドの背景要素 -->
+            <div class="hero-grid-item"></div>
+            <!-- 他のグリッドアイテムが続く... -->
+        </div>
+        
+        <svg class="svg-container" width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <!-- ランダムな形状 -->
+            <path d="M0,0 L100,0 L100,20 Q50,40 0,20 Z" fill="#FF0000" opacity="0.1" />
+            <path d="M0,80 L100,80 L100,100 Q50,90 0,100 Z" fill="#0000FF" opacity="0.1" />
+            <circle cx="80" cy="30" r="15" fill="#FFFF00" opacity="0.1" />
+        </svg>
+        
+        <h1 class="hero-title">AI DX<br>スクール</h1>
+        <p class="hero-subtitle">初心者でも最新AIについて深く学べ、業務効率化を実現するオンラインスクール</p>
+        
+        <div class="seats-counter">残り席数わずか：5席</div>
+        
+        <div class="hero-cta">
+            <a href="#pricing" class="button button--large">無料カウンセリングに申し込む</a>
+        </div>
+        
+        <div class="scroll-down">
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
+    
+    <div class="marquee">
+        <span>★ 初心者でも最新AIについて深く学べ、個人・法人問わず業務の効率化を図る手助けをするオンラインスクールです ★ 初心者でも最新AIについて深く学べ、個人・法人問わず業務の効率化を図る手助けをするオンラインスクールです ★</span>
+    </div>
+    
+    <!-- スクール概要セクション -->
+    <section id="about" class="section">
+        <div class="counter">01</div>
+        <div class="pattern-bg"></div>
+        <h2>AI DXスクールとは</h2>
+        <div class="grid-container">
+            <div class="grid-item grid-item--two-thirds">
+                <div class="card fade-in">
+                    <p>初心者でも最新AIについて深く学べ、<span class="highlight">個人・法人問わず業務の効率化を図る手助けをするオンラインスクール</span>です。</p>
+                    <p>忙しい方でも自分のスケジュールに合わせビデオコンテンツでAIについて学ぶことができるため、時間や場所を選ばずに学習を進めることが可能。</p>
+                    <p>これにより最新のAI技術をすぐに習得し、自社のビジネスやプロジェクトに応用、その結果<span class="highlight">事業の拡大や業務時間の大幅な短縮をすることが可能</span>になります。</p>
+                </div>
+            </div>
+            <div class="grid-item grid-item--third">
+                <div class="card card--accent1 fade-in">
+                    <h3>このような方におすすめ</h3>
+                    <ul>
+                        <li>AI技術を業務に活用したい方</li>
+                        <li>ChatGPTの使い方を極めたい方</li>
+                        <li>業務の自動化を実現したい方</li>
+                        <li>AI関連の副業で収入を得たい方</li>
+                        <li>デジタル変革を推進したい企業</li>
+                    </ul>
+                </div>
+                
+                <div class="card fade-in" style="margin-top: 20px;">
+                    <div class="tags">
+                        <span class="tag">ChatGPT</span>
+                        <span class="tag">業務効率化</span>
+                        <span class="tag">自動化</span>
+                        <span class="tag">DX推進</span>
+                        <span class="tag">AI活用</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cta-banner">
+            <h2>3日間の無料トライアル実施中！</h2>
+            <p>まずは無料でAI DXスクールの質の高い授業を体験してみませんか？リスクなしで始められます。</p>
+            <a href="#pricing" class="button button--large button--accent3">無料トライアルに申し込む</a>
+        </div>
+    </section>
+    
+    <!-- AI未来予測セクション -->
+    <section id="future" class="section">
+        <div class="counter">02</div>
+        <div class="pattern-bg"></div>
+        <h2>AIが当たり前になる未来</h2>
+        <div class="grid-container">
+            <div class="grid-item">
+                <div class="card fade-in">
+                    <p>連絡手段が「黒電話」ではなく「スマートフォン」が当たり前になった現代。</p>
+                    <p>移動手段が「馬車」ではなく「車」が当たり前になった現代。</p>
+                    <p>生きる手段が「自力」ではなく<span class="highlight">「AIを使う」のが当たり前になる未来。</span></p>
+                </div>
+            </div>
+            
+            <div class="grid-item">
+                <h3>ChatGPT導入率の比較</h3>
+                <p>ChatGPTが登場して1年が経ちましたが日本での利用率はまだ10%と低いです。<br>※2023年現時点の調査</p>
+                
+                <div class="stats-container">
+                    <div class="stat-item fade-in">
+                        <div class="stat-number">10<span class="blink">%</span></div>
+                        <div class="stat-text">日本企業</div>
+                    </div>
+                    <div class="stat-item fade-in" style="background-color: var(--accent2); color: var(--base);">
+                        <div class="stat-number">92<span class="blink">%</span></div>
+                        <div class="stat-text">アメリカ企業</div>
+                    </div>
+                </div>
+                
+                <div class="card card--accent3 fade-in">
+                    <p>企業がAI技術を取り入れることで、生産性の向上とコストの削減・売上増加を実現し利益と賃金の上昇、採用力の向上につながります。</p>
+                    
+                    <p>そのために必要不可欠なことは：</p>
+                    <ul>
+                        <li><span class="highlight">業務に合ったAIツールの導入</span></li>
+                        <li><span class="highlight">AIスキルを備えた従業員の育成</span></li>
+                    </ul>
+                    
+                    <p>AI技術の理解と適用は、企業が生き残り、成長し、長期的な成功を収めるために欠かせない戦略であり、それを実現する為には人材の育成も同様に重要です。</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cta-banner" style="background-color: var(--accent2);">
+            <h2>AI技術者の需要が急増中！</h2>
+            <p>今から学び始めれば、企業のAIニーズに応えられる人材になれます。キャリアアップ・転職にも有利です。</p>
+            <a href="#pricing" class="button button--large">詳細を見る</a>
+        </div>
+    </section>
+    
+    <!-- 業務効率化セクション -->
+    <section id="benefits" class="section">
+        <div class="counter">03</div>
+        <div class="pattern-bg"></div>
+        <h2>コストをかけていた業務を全てAIで</h2>
+        
+        <div class="benefits-list">
+            <div class="benefits-item fade-in">
+                <h3>時間と労力の大幅な削減</h3>
+                <p>AI DXスクールで学んだ知識を活用することで、通常の業務時間を最大70%カットすることが可能に。余った時間を創造的な業務や戦略立案に充てることができます。</p>
+            </div>
+            
+            <div class="benefits-item fade-in">
+                <h3>コスト削減とリソース最適化</h3>
+                <p>外注していた業務を内製化し、年間数百万円のコスト削減を実現した事例も。AIを活用することで、最小限のリソースで最大限の成果を上げられます。</p>
+            </div>
+            
+            <div class="benefits-item fade-in">
+                <h3>品質と精度の向上</h3>
+                <p>人間のミスを減らし、一貫性のある高品質なアウトプットを実現。データ分析の精度向上により、より良い意思決定が可能になります。</p>
+            </div>
+        </div>
+        
+        <div class="grid-container">
+            <div class="grid-item grid-item--third">
+                <div class="card fade-in">
+                    <h3>プレゼン資料の作成</h3>
+                    <p>営業先ごとに異なるプレゼンテーション資料の作成に3日間かけていたのが</p>
+                    <p class="highlight">たった30分で作成可能！</p>
+                </div>
+            </div>
+            
+            <div class="grid-item grid-item--third">
+                <div class="card fade-in">
+                    <h3>経理作業の自動化</h3>
+                    <p>月末の経理処理、財務データの整理、領収書・請求書の整理、社内経理の管理などの経理担当者の手作業業務</p>
+                    <p class="highlight">AIでデータの一括管理！</p>
+                </div>
+            </div>
+            
+            <div class="grid-item grid-item--third">
+                <div class="card fade-in">
+                    <h3>WEBサイトの生成</h3>
+                    <p>専門のWebデザイナーに外注で100万円かけて2ヶ月で製作してたサイトの作成</p>
+                    <p class="highlight">自社スタッフで1日で完結！</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cta-banner">
+            <h2>あなたも業務効率化の専門家に！</h2>
+            <p>AI DXスクールで学んだスキルは、すぐに実務に活かせます。学習から実践まで、専門スタッフが徹底サポート。</p>
+            <a href="#pricing" class="button button--large">効率化を始める</a>
+        </div>
+    </section>
+    
+    <!-- カリキュラムセクション -->
+    <section id="curriculum" class="section">
+        <div class="counter">04</div>
+        <div class="pattern-bg"></div>
+        <h2>本スクールカリキュラムの内容</h2>
+        <div class="grid-container">
+            <div class="grid-item">
+                <div class="card fade-in">
+                    <p>短期間で基本〜応用まで学ぶことが可能</p>
+                    
+                    <div class="curriculum-list">
+                        <div class="curriculum-item fade-in">
+                            <h3>第1章</h3>
+                            <p>ChatGPT入門：基本〜応用まで</p>
+                        </div>
+                        <div class="curriculum-item fade-in">
+                            <h3>第2章</h3>
+                            <p>ChatGPT高等テクニック：専門家への道</p>
+                        </div>
+                        <div class="curriculum-item fade-in">
+                            <h3>第3章</h3>
+                            <p>多岐にわたるツール：各種AIツールの活用法</p>
+                        </div>
+                        <div class="curriculum-item fade-in">
+                            <h3>第4章</h3>
+                            <p>API連携のイロハ：自動で動く動作体験する</p>
+                        </div>
+                        <div class="curriculum-item fade-in">
+                            <h3>第5章</h3>
+                            <p>自動化フロー作成：動作を繋げて複数のタスクの自動化</p>
+                        </div>
+                        <div class="curriculum-item fade-in">
+                            <h3>第6章</h3>
+                            <p>アナログ作業の捻出：自動化の提案力増強</p>
+                        </div>
+                        <div class="curriculum-item fade-in">
+                            <h3>第7章</h3>
+                            <p>社内DXの実現：自身の業務を自動化する</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid-item">
+                <div class="card card--accent2 fade-in">
+                    <h3>随時最新AI技術の提供</h3>
+                    <p>AIの世界は毎分、毎秒、新しい発見がされ、新たな可能性が日々広がっていきます。この分野で最先端を行くために本スクールは<span class="highlight">常に最新のAI情報をいち早く提供し続けます。</span></p>
+                    <p>AIの進化に合わせ、コンテンツも随時更新。AIと共に私たちも共に成長していきましょう。</p>
+                </div>
+                
+                <div class="card fade-in" style="margin-top: 20px;">
+                    <h3>学習の進め方</h3>
+                    <p>ビデオ講義→実践演習→添削フィードバック→応用課題の流れで確実にスキルを身に付けられます。週に5時間程度の学習で3ヶ月後には実践レベルに到達できるカリキュラム設計です。</p>
+                </div>
+                
+                <a href="#curriculum-details" class="button fade-in">カリキュラムの詳細を見る</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- マネタイズ戦略セクション -->
+    <section id="monetize" class="section">
+        <div class="counter">05</div>
+        <div class="pattern-bg"></div>
+        <h2>マネタイズ戦略：AI技術で収益化</h2>
+        <div class="grid-container">
+            <div class="grid-item grid-item--third">
+                <div class="card fade-in">
+                    <h3>デザイン制作</h3>
+                    <ul>
+                        <li>ロゴ・名刺のデザイン</li>
+                        <li>Tシャツやグッズのデザイン</li>
+                        <li>アーティストイラストの制作</li>
+                        <li>店の看板、MENU表デザイン</li>
+                        <li>アニメーション作成</li>
+                        <li>絵本のイラスト作成</li>
+                        <li>アイドルの衣装デザイン</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="grid-item grid-item--third">
+                <div class="card fade-in">
+                    <h3>Web制作</h3>
+                    <ul>
+                        <li>会社のWebサイト構築</li>
+                        <li>UI/UXのデザイン</li>
+                        <li>SEO最適化</li>
+                        <li>お店の予約システムの構築</li>
+                        <li>レスポンシブデザイン</li>
+                        <li>ランディングページ制作</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="grid-item grid-item--third">
+                <div class="card fade-in">
+                    <h3>アフィリエイト</h3>
+                    <ul>
+                        <li>SNSグラビアモデル</li>
+                        <li>商品の紹介</li>
+                        <li>ブランドの宣伝</li>
+                        <li>キャンペーン運営</li>
+                        <li>コンテンツ制作</li>
+                        <li>トレンド分析</li>
+                        <li>インフルエンサー協力</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="grid-item">
+                <div class="card card--accent1 fade-in">
+                    <h3>仕事案件獲得の秘訣</h3>
+                    <p>実際に成功したプロフェッショナルの経験を元に<span class="highlight">仕事の案件獲得方法の秘訣を伝授</span>いたします。</p>
+                    <p>新しい案件を見つける為の効果的な戦略、自分自身を市場で差別化していくか、そして成功への道を切り開くための心構えやマインドセットについてなど深いところまで教えていきます。</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cta-banner" style="background-color: var(--accent3); color: var(--text);">
+            <h2>副業収入の可能性を広げる</h2>
+            <p>AI DXスクールで学んだスキルを活かして、本業とは別に月10万円〜50万円の副収入を得ている卒業生が多数！</p>
+            <div class="countdown">
+                <div class="countdown-item">
+                    <div class="countdown-number">03</div>
+                    <div class="countdown-label">日</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number">12</div>
+                    <div class="countdown-label">時間</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number">45</div>
+                    <div class="countdown-label">分</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number">30</div>
+                    <div class="countdown-label">秒</div>
+                </div>
+            </div>
+            <p>↓ 期間限定キャンペーン実施中！ ↓</p>
+            <a href="#pricing" class="button button--large">今すぐ申し込む</a>
+        </div>
+    </section>
+    
+    <!-- テスティモニアルセクション -->
+    <section id="testimonials" class="section">
+        <div class="counter">06</div>
+        <div class="pattern-bg"></div>
+        <h2>受講者の声</h2>
+        
+        <div class="testimonials">
+            <div class="testimonial fade-in">
+                <div class="testimonial-quote">"</div>
+                <p class="testimonial-text">プログラミング未経験でしたが、AI DXスクールのカリキュラムのおかげで業務自動化の仕組みを構築できるようになりました。今では社内のAI化を推進する立場になり、評価も上がっています。</p>
+                <p class="testimonial-author">鈴木さん（32歳、マーケティング担当）</p>
+            </div>
+            
+            <div class="testimonial fade-in">
+                <div class="testimonial-quote">"</div>
+                <p class="testimonial-text">経理業務の自動化に興味があり受講しました。今では月末の処理時間が1/5になり、データ分析にもっと時間を使えるようになりました。投資以上のリターンがありました！</p>
+                <p class="testimonial-author">佐藤さん（45歳、経理部長）</p>
+            </div>
+            
+            <div class="testimonial fade-in">
+                <div class="testimonial-quote">"</div>
+                <p class="testimonial-text">副業でAIを使ったデザイン制作を始めたところ、予想以上の需要がありました。スクールで学んだマネタイズ戦略のおかげで、月に20万円ほどの安定した収入を得られています。</p>
+                <p class="testimonial-author">田中さん（28歳、会社員）</p>
+            </div>
+        </div>
+        
+        <div class="stats-container">
+            <div class="stat-item fade-in">
+                <div class="stat-number">97<span class="blink">%</span></div>
+                <div class="stat-text">受講満足度</div>
+            </div>
+            <div class="stat-item fade-in">
+                <div class="stat-number">83<span class="blink">%</span></div>
+                <div class="stat-text">業務効率化成功率</div>
+            </div>
+            <div class="stat-item fade-in">
+                <div class="stat-number">68<span class="blink">%</span></div>
+                <div class="stat-text">副業収入増加</div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- よくある質問セクション -->
+    <section id="faq" class="section">
+        <div class="counter">07</div>
+        <div class="pattern-bg"></div>
+        <h2>よくある質問</h2>
+        
+        <div class="faq-section">
+            <div class="faq-item">
+                <div class="faq-question">プログラミング経験がなくても大丈夫ですか？</div>
+                <div class="faq-answer">
+                    <p>はい、全く問題ありません。本スクールは初心者を前提にカリキュラムを設計しています。専門的な知識がなくても、ステップバイステップで学べる内容になっています。必要なのは学ぶ意欲だけです！</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">どのくらいの期間で効果が出ますか？</div>
+                <div class="faq-answer">
+                    <p>個人差はありますが、多くの受講生は2〜4週間程度で業務への適用を始められています。カリキュラムを一通り終える3ヶ月後には、複雑な自動化や効率化の仕組みを構築できるレベルに達する方がほとんどです。</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">サポート体制はどうなっていますか？</div>
+                <div class="faq-answer">
+                    <p>24時間対応のチャットサポートに加え、週2回のオンライン質問会を実施しています。また、受講生専用のDiscordコミュニティでは、講師や他の受講生と気軽に情報交換ができます。最大6ヶ月間のサポート期間中は、いつでも質問や相談が可能です。</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">法人での申し込みは可能ですか？</div>
+                <div class="faq-answer">
+                    <p>もちろん可能です。法人向けには複数名での一括申し込み割引や、カスタマイズしたカリキュラムのご提案も行っています。御社の課題やニーズに合わせた研修プランをご用意しますので、お気軽にお問い合わせください。</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">受講に必要な環境はありますか？</div>
+                <div class="faq-answer">
+                    <p>インターネット接続環境とパソコン（WindowsまたはMac）があれば受講可能です。特別なソフトウェアのインストールは基本的に不要です。一部の実践演習ではクラウドサービスを利用しますが、無料プランで十分対応できます。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 料金・特典セクション -->
+    <section id="pricing" class="section">
+        <div class="counter">08</div>
+        <div class="pattern-bg"></div>
+        <h2>料金・サポート体制</h2>
+        
+        <div class="price-container">
+            <div class="price-box price-box--featured">
+                <div class="price-label">人気No.1</div>
+                <h3>標準プラン</h3>
+                <div class="price">398,000円<span style="font-size: 1rem;">(税抜)</span></div>
+                <p>短期間でスキル身につけられる上<br>最大6ヶ月間サポートいたします。</p>
+                <p>24時間対応可能なチャットでのサポートもありますので安心して受講していただけます。</p>
+                
+                <h3 style="margin-top: 30px;">特典内容</h3>
+                <ul>
+                    <li>全7章の完全カリキュラム</li>
+                    <li>24時間チャットサポート</li>
+                    <li>週2回のオンライン質問会</li>
+                    <li>Discord限定コミュニティ参加権</li>
+                    <li>AI関連書籍3冊プレゼント</li>
+                    <li>卒業後の案件紹介サービス</li>
+                </ul>
+                
+                <a href="#contact" class="button button--large" style="margin-top: 30px;">今すぐ申し込む</a>
+            </div>
+        </div>
+        
+        <div class="seats-counter" style="text-align: center; display: block; margin: 30px auto;">今月の募集枠残りわずか：5席 / 20席</div>
+        
+        <div class="cta-banner">
+            <h2>今だけの特別キャンペーン！</h2>
+            <p>期間限定で「AI副業スタートアップキット」（通常価格58,000円）を無料プレゼント中！このチャンスをお見逃しなく！</p>
+            <div class="countdown">
+                <div class="countdown-item">
+                    <div class="countdown-number">03</div>
+                    <div class="countdown-label">日</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number">12</div>
+                    <div class="countdown-label">時間</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number">45</div>
+                    <div class="countdown-label">分</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number">30</div>
+                    <div class="countdown-label">秒</div>
+                </div>
+            </div>
+            <a href="#contact" class="button button--large button--accent3">今すぐ申し込む</a>
+        </div>
+    </section>
+    
+    <!-- 学習プラットフォームセクション -->
+    <section id="platform" class="section">
+        <div class="counter">09</div>
+        <div class="pattern-bg"></div>
+        <h2>学習プラットフォーム</h2>
+        <div class="grid-container">
+            <div class="grid-item grid-item--half">
+                <div class="card fade-in">
+                    <h3>ビデオコンテンツでの提供</h3>
+                    <p>冒頭にお話しした通り、AI DXスクールは忙しい方でも自分のスケジュールに合わせて学習ができるビデオコンテンツ式の授業です。<span class="highlight">時間や場所を選ばずに学習を進めることが可能。</span></p>
+                    <p>分からないことや授業での質問等も24時間のサポート付きなので安心して受講ができます。</p>
+                </div>
+            </div>
+            
+            <div class="grid-item grid-item--half">
+                <div class="card card--accent3 fade-in">
+                    <h3>限定コミュニティ</h3>
+                    <p>AI DXスクール受講者限定でDiscordの特別コミュニティに無料で参加できます。</p>
+                    <p>コミュニティ内ではAIの最新情報の共有や、<span class="highlight">コミュニティ会員限定の特別資料の配布</span>などAIに関する様々な特典を受け取る事ができます。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- お問い合わせセクション -->
+    <section id="contact" class="section">
+        <div class="counter">10</div>
+        <div class="pattern-bg"></div>
+        <h2>お問い合わせ・ご質問</h2>
+        
+        <div class="grid-container">
+            <div class="grid-item">
+                <div class="card fade-in">
+                    <h3>お気軽にお問い合わせください</h3>
+                    <p><strong>住所：</strong>神奈川県相模原市中央区中央4-5-9 ロアジス3c</p>
+                    <p><strong>電話番号：</strong>04-2768-7844</p>
+                    <p><strong>メールアドレス：</strong>aidx.contact@gmail.com</p>
+                    
+                    <div style="margin-top: 30px;">
+                        <p>まずは無料カウンセリングから始めてみませんか？</p>
+                        <p>ご質問やご相談に専門スタッフが丁寧にお答えします。</p>
+                        <a href="#" class="button button--large">無料カウンセリングを予約する</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="marquee" style="background-color: var(--accent2);">
+        <span>★ 忙しい方でも自分のスケジュールに合わせて学習ができるビデオコンテンツ式の授業です ★ 時間や場所を選ばずに学習を進めることが可能 ★ 24時間のサポート付きなので安心して受講ができます ★</span>
+    </div>
+    
+    <footer class="footer">
+        <div class="grid-container">
+            <div class="grid-item">
+                <h3>AI DXスクール</h3>
+                <p>© 2025 MY STANDARD All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // FAQトグル
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', function() {
+                this.classList.toggle('active');
+                const answer = this.nextElementSibling;
+                if (answer.classList.contains('show')) {
+                    answer.classList.remove('show');
+                } else {
+                    answer.classList.add('show');
+                }
+            });
+        });
+        
+        // スクロールアニメーション
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        function checkFade() {
+            fadeElements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (elementPosition < windowHeight * 0.9) {
+                    element.classList.add('active');
+                }
+            });
+        }
+        
+        // 初期チェック
+        checkFade();
+        
+        // スクロール時にチェック
+        window.addEventListener('scroll', checkFade);
+        
+        // スクロールスナップのナビゲーション
+        document.querySelectorAll('.navigation a, a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                if (this.getAttribute('href').startsWith('#')) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+        
+        // カウントダウンタイマー
+        function updateCountdown() {
+            // カウントダウンロジックを実装する場合はここに記述
+            // 現在はダミー表示
+        }
+        
+        // カウントダウン開始
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
